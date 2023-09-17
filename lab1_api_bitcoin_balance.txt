@@ -1,0 +1,24 @@
+const https = require('https')
+const options = {
+    hostname: 'api.blockcypher.com',
+    port: 443,
+    path: '/v1/btc/test3/addrs/ tb1qrhem2qv9emrshd6u6c79wfh0ctydqya79h8p0n/balance',
+    method: 'GET'
+}
+
+const req = https.request(options, res => {
+    console.log(`statusCode: ${res.statusCode}`)
+
+    res.on('data', d => {
+        let b = JSON.parse(d);
+        let balance = b.balance / 100000000;
+        console.log(balance);
+        console.log(b);
+    })
+})
+
+req.on('error', error => {
+    console.error(error)
+})
+
+req.end()
